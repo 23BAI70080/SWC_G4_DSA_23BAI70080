@@ -1,0 +1,34 @@
+--closest subsequence sum
+class Solution {
+public:
+    void gen(vector<int>& nums, int l, int r, vector<long long>& v) {
+        int n = r - l;
+        for (int i = 0; i < (1 << n); i++){
+            long long sum = 0;
+            for (int j = 0; j < n; j++) {
+                if (i & (1 << j))
+                    sum += nums[l + j];
+            }
+            v.push_back(sum);
+        }
+    }
+    int minAbsDifference(vector<int>& nums, int goal) {
+        int n = nums.size();
+        vector<long long> left, right;
+        gen(nums, 0, n / 2, left);
+        gen(nums, n / 2, n, right);
+        sort(right.begin(), right.end());
+        int msum = INT_MAX;
+        for (long long sum : left) {
+            long long target = goal - sum;
+            auto it = lower_bound(right.begin(), right.end(), target);
+            if (it != right.end())
+                msum = min(msum, (int)abs(goal - (sum + *it)));
+            if (it != right.begin()) {
+                --it;
+                msum = min(msum, (int)abs(goal - (sum + *it)));
+            }
+        }
+        return msum;
+    }
+};
