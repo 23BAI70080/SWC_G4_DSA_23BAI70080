@@ -1,0 +1,11 @@
+-- count 1 bits
+class Solution {
+public:
+    int hammingWeight(int n) {
+        int ct = 0;
+for(int i = 31 ; i >= 0 ; i--){
+    if(n&(1<<i)) ct++;
+}
+        return ct;
+    }
+};
