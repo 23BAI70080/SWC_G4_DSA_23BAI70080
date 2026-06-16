@@ -1,0 +1,43 @@
+--kth smallest instruction
+
+class Solution {
+public:
+
+
+long long comb(int n, int r){
+    if(n<r) return 0;
+    if(r==0 || r == n) return 1;
+    r = min(r,n-r);
+    long long ans = 1;
+    for(int i = 1 ; i <= r ; i++){
+        ans*=n-i+1;
+        ans/=i;
+    }
+    return ans;
+}
+    string kthSmallestPath(vector<int>& destination, int k) {
+         string s = "";
+        int v = destination[0];
+        int h = destination[1];
+     
+    int n = v+h;
+
+for(int i = 0 ; i < n ; i++){
+int left = n - i-1;
+if(h){
+    long long cal = comb(left,v);
+    if(cal >= k){
+       h--; s+='H'; 
+    }
+    else{
+        v-- ; s+='V';
+        k-=cal;
+    }
+}else{
+    s+='V';
+    v--;
+}
+}
+return s;
+    }
+};
